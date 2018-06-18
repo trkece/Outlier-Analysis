@@ -1,0 +1,24 @@
+data(mtcars)
+str(mtcars)
+
+
+func <- function(x){
+  a <- boxplot.stats(x)
+  a1 <- x[!(x %in% a$out)]
+  return(a1)
+}
+
+t <-  (apply(mtcars,2,func))
+
+s <- data.frame(key=rownames(mtcars))
+for ( i in 1:ncol(mtcars)){
+
+s1 <- data.frame(key=names(t[[i]]),x=t[[i]])
+s=merge(s,s1,by="key",all=T)
+}
+
+rownames(s) <- s$key
+s$key <- NULL
+names(s) <- names(mtcars)
+head(s)
+
